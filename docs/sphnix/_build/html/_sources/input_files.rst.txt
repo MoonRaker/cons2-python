@@ -1,4 +1,0 @@
-.. _input_files:
-
-Input Files
-===========
