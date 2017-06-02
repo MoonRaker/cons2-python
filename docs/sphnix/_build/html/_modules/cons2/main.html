@@ -1,0 +1,959 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cons2.main &mdash; Cons2 3.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="Cons2 3.0 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Cons2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../input_files.html">Input Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../output_files.html">Output Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../run.html">Running CONS2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribution.html">Contribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../variables_style_rules.html">Glossary</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">Cons2</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>cons2.main</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for cons2.main</h1><div class="highlight"><pre>
+<span class="c"># cons2.py</span>
+<span class="c"># Derek Groenendyk</span>
+<span class="c"># 5/3/2016</span>
+<span class="c"># Rewritten from a USDA XCONS program that uses Blaney-Criddle method for</span>
+<span class="c"># calculating consumptive use.</span>
+
+
+<span class="c"># &#39;&#39;&#39;</span>
+<span class="c"># This program was translated into Python from a Fortran program written</span>
+<span class="c"># by USDA in 1980. </span>
+
+<span class="c"># &quot;PROGRAM XCONS</span>
+
+<span class="c"># COMPUTES CONSUMPTIVE USE AS PRESENTED IN SCS TECHNICAL RELEASE NO. 21</span>
+<span class="c"># -- REVISED SEPTEMBER 1970.</span>
+
+<span class="c"># THE PROGRAM WAS ORIGINALLY DEVELOPED BY JOE WENSMAN OF THE PN REGIONAL</span>
+<span class="c"># OFFICE AS PROGRAM CONSUSE.</span>
+
+<span class="c"># THIS PROGRAM WAS ACQUIRED BY D-752 IN JANUARY, 1981 AND MODIFIED SLIGHTLY.</span>
+<span class="c"># THESE MODIFICATIONS ALLOW FOR OUTPUT OF SUMMARY TABLES ONLY AND</span>
+<span class="c"># ELIMINATION OF THE SEASON BY SEASON SUMMARIES, USE OF DEPTHS OTHER</span>
+<span class="c"># THAN THREE INCHES FOR COMPUTATION OF EFFECTIVE PRECIPITATION, USE</span>
+<span class="c"># OF UP TO 100 YEARS OF DATA IN THE COMPUTATIONS (AS OPPOSED TO THE</span>
+<span class="c"># ORIGINAL 60 YEAR LIMIT) AND PRINTING OF YEARS BETWEEN 1900 AND 1909.</span>
+     
+<span class="c"># +------------------------+-----------------------+</span>
+<span class="c"># | Crop Number            | Crop Name             |</span>
+<span class="c"># +========================+=======================+</span>
+<span class="c"># | 1                      | ALFALFA               |</span>
+<span class="c"># +------------------------+-----------------------+</span>
+<span class="c"># | 2                      | GRASS PASTURE         |</span>
+<span class="c"># +------------------------+-----------------------+</span>
+<span class="c"># | 3                      | ORCHARD WITHOUT COVER |</span>
+<span class="c"># +------------------------+-----------------------+</span>
+<span class="c"># | 4                      | ORCHARD WITH COVER    |</span>
+<span class="c"># +------------------------+-----------------------+</span>
+<span class="c"># | 5*                     | CITRUS                |</span>
+<span class="c"># +------------------------+-----------------------+</span>
+<span class="c"># | 6                      | GRAPES                |</span>
+<span class="c"># +------------------------+-----------------------+</span>
+<span class="c"># | 7                      | DRY BEANS             |</span>
+<span class="c"># +------------------------+-----------------------+</span>
+<span class="c"># | 8                      | SPRING GRAIN          |</span>
+<span class="c"># +------------------------+-----------------------+</span>
+<span class="c"># | 9                      | CORN SILAGE           |</span>
+<span class="c"># +------------------------+-----------------------+</span>
+<span class="c"># | 10*                    | COTTON 1              |</span>
+<span class="c"># +------------------------+-----------------------+</span>
+<span class="c"># | 11                     | IRISH POTATOES        |</span>
+<span class="c"># +------------------------+-----------------------+</span>
+<span class="c"># | 12                     | SMALL VEGETABLES      |</span>
+<span class="c"># +------------------------+-----------------------+</span>
+<span class="c"># | 13                     | CORN SWEET            |</span>
+<span class="c"># +------------------------+-----------------------+</span>
+<span class="c"># | 14                     | SNAP BEANS            |</span>
+<span class="c"># +------------------------+-----------------------+</span>
+<span class="c"># | 15                     | CORN GRAIN            |</span>
+<span class="c"># +------------------------+-----------------------+</span>
+<span class="c"># | 16                     | DRY PEAS              |</span>
+<span class="c"># +------------------------+-----------------------+</span>
+<span class="c"># | 17                     | GREEN PEAS            |</span>
+<span class="c"># +------------------------+-----------------------+</span>
+<span class="c"># | 18                     | COTTON 2              |</span>
+<span class="c"># +------------------------+-----------------------+</span>
+<span class="c"># | 19                     | WINTER WHEAT FALL     |</span>
+<span class="c"># +------------------------+-----------------------+</span>
+<span class="c"># | 20                     | WINTER WHEAT SPRING   |</span>
+<span class="c"># +------------------------+-----------------------+</span>
+
+<span class="c"># *CROPS 10 AND 5 HAVE BEEN MODIFIED FOR USE IN AZ</span>
+
+<span class="c"># CROPS 1-6 ARE PERENNIAL CROPS WITH CROP GROWTH STAGE COEFFICIENT CURVE VALUES</span>
+<span class="c"># ON THE 1ST AND 15TH OF EACH MONTH (25 points)</span>
+
+<span class="c"># CROPS 7-20 ARE ANNUAL CROPS WITH CROP GROWTH STAGE COEFFICIENT CURVE VALUES</span>
+<span class="c"># AT 5 PERCENT OF GROWING SEASON INTERVALS;</span>
+
+<span class="c"># CROP GROWTH STAGE COEFFICIENT CURVE VALUES TAKEN FROM SCS TECH. REL. NO. 21,</span>
+<span class="c"># 1970, UNLESS (EST)&quot;</span>
+    
+<span class="c"># &#39;&#39;&#39;</span>
+
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span> <span class="k">as</span> <span class="n">dt</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">date</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">import</span> <span class="nn">cons2</span>
+
+<span class="c"># from cons2.crop import ALFALFA, GRPASTURE, ORCHARDCOVER, ORCHARDNOCOVER, CITRUS, \</span>
+<span class="c">#                  GRAPES, DRYBEANS, SPRGRAIN, CORNSILAGE, COTTON1, \</span>
+<span class="c">#                  IRPOTATOES, SMVEGETABLES, SWEETCORN, SNAPBEANS, \</span>
+<span class="c">#                  CORNGRAIN, DRYPEAS, GREENPEAS, COTTON2, WNTRWHEATFALL, \</span>
+<span class="c">#                  WNTRWHEATSPRING</span>
+
+<span class="kn">from</span> <span class="nn">cons2.site</span> <span class="k">import</span> <span class="n">SITE</span>
+<span class="c"># from cons2.crop import CROP</span>
+<span class="c"># from cons2.read_infile import get_data</span>
+<span class="kn">import</span> <span class="nn">cons2.excel</span> <span class="k">as</span> <span class="nn">excel</span>
+<span class="c"># from cons2.weather import WEATHER</span>
+
+
+<span class="c"># crp_classes = [ALFALFA, GRPASTURE, ORCHARDCOVER, ORCHARDNOCOVER, CITRUS, \</span>
+<span class="c">#                  GRAPES, DRYBEANS, SPRGRAIN, CORNSILAGE, COTTON1, \</span>
+<span class="c">#                  IRPOTATOES, SMVEGETABLES, SWEETCORN, SNAPBEANS, \</span>
+<span class="c">#                  CORNGRAIN, DRYPEAS, GREENPEAS, COTTON2, WNTRWHEATFALL, \</span>
+<span class="c">#                  WNTRWHEATSPRING]          </span>
+
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s">&#39;cons2.log&#39;</span><span class="p">,</span> 
+                    <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">,</span>
+                    <span class="c"># level=logging.INFO,</span>
+                    <span class="c"># level=logging.CRITICAL,</span>
+                    <span class="c"># level=logging.WARNING,</span>
+                    <span class="nb">format</span><span class="o">=</span><span class="s">&#39;%(asctime)s %(name)-15s %(levelname)-8s %(message)s&#39;</span><span class="p">,</span>
+                    <span class="n">datefmt</span><span class="o">=</span><span class="s">&#39;%m-%d %H:%M&#39;</span><span class="p">,</span>
+                    <span class="n">filemode</span><span class="o">=</span><span class="s">&#39;w&#39;</span><span class="p">)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">&#39;cons2_main&#39;</span><span class="p">)</span>
+
+<span class="n">cons2_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">cons2</span><span class="o">.</span><span class="n">__file__</span><span class="p">))</span>
+
+<span class="c"># ch = logging.StreamHandler(sys.stdout)</span>
+<span class="c"># ch.setLevel(logging.DEBUG)</span>
+<span class="c"># formatter = logging.Formatter(&#39;%(asctime)s - %(name)s - %(levelname)s - %(message)s&#39;)</span>
+<span class="c"># ch.setFormatter(formatter)</span>
+<span class="c"># logger.addHandler(ch)</span>
+
+
+<div class="viewcode-block" id="import_data"><a class="viewcode-back" href="../../api/main.html#cons2.main.import_data">[docs]</a><span class="k">def</span> <span class="nf">import_data</span><span class="p">(</span><span class="n">vis</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reads the site input file and initilizes a SITE object, including crop</span>
+<span class="sd">    and weather information.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    vis: boolean</span>
+<span class="sd">        Sets Excel object visibility.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    sites: list</span>
+<span class="sd">        SITE objects for each input location.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+    <span class="n">dir_list</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
+
+    <span class="c"># test_dir = os.path.dirname(os.path.abspath(</span>
+    <span class="c">#          inspect.getfile(inspect.currentframe())))</span>
+    <span class="c"># file = os.path.join(test_dir, &#39;..&#39;, &#39;data&#39;, &#39;detect_clearsky_data.csv&#39;)</span>
+    
+    <span class="c"># cons2_dir = os.path.dirname(os.path.abspath(cons2.main.__file__))</span>
+
+    <span class="c"># cwb = ex.open_workbook(os.path.join(cons2_dir,&#39;data&#39;,&#39;crop_parameters.xlsx&#39;), vis)</span>
+
+    <span class="c"># if cwb == None:</span>
+    <span class="c">#     logger.critical(&#39;Please close workbook: &#39; + &#39;crop_parameters.xlsx&#39;)</span>
+    <span class="c">#     raise SystemExit    </span>
+
+    <span class="c"># file_list = []</span>
+    <span class="c"># for afile in dir_list:</span>
+    <span class="c">#     if &#39;sites_in.xlsx&#39; in afile and &#39;~&#39; not in afile:</span>
+    <span class="c">#         file_list.append(afile)</span>
+
+    <span class="n">sites</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="s">&#39;sites_in.xlsx&#39;</span> <span class="ow">in</span> <span class="n">dir_list</span><span class="p">:</span>
+        <span class="c"># for afile in file_list:</span>
+        <span class="c"># swb = ex.open_workbook(os.path.join(directory, &#39;sites_in.xlsx&#39;), vis)</span>
+        <span class="c"># print(os.path.join(directory, &#39;sites_in.xlsx&#39;))</span>
+        <span class="n">sin_ex</span> <span class="o">=</span> <span class="n">excel</span><span class="o">.</span><span class="n">Excel</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="s">&#39;sites_in.xlsx&#39;</span><span class="p">),</span> <span class="n">vis</span><span class="p">)</span>
+        <span class="n">swb</span> <span class="o">=</span> <span class="n">sin_ex</span><span class="o">.</span><span class="n">wb</span>
+        <span class="c"># if swb == None:</span>
+        <span class="c">#     logger.critical(&#39;Please close workbook: &#39; + &#39;sites_in.xlsx&#39;)</span>
+        <span class="c">#     raise SystemExit</span>
+        <span class="n">sheets</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">swb</span><span class="o">.</span><span class="n">Worksheets</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">sheet</span> <span class="ow">in</span> <span class="n">swb</span><span class="o">.</span><span class="n">Worksheets</span><span class="p">:</span>
+            <span class="c"># asite = SITE(directory + &#39;\\&#39; + afile)</span>
+            <span class="c"># print(sheets[i].Name)</span>
+
+            <span class="n">asite</span> <span class="o">=</span> <span class="n">SITE</span><span class="p">(</span><span class="n">sheet</span><span class="p">)</span>
+
+            <span class="c"># asite.wx = WEATHER(asite.wx_file, asite.wx_location, units=&#39;english&#39;)</span>
+                
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">asite</span><span class="o">.</span><span class="n">wx</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+                <span class="n">sites</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">asite</span><span class="p">)</span>                  
+
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;finished initializing site: &#39;</span> \
+                <span class="o">+</span> <span class="n">asite</span><span class="o">.</span><span class="n">site_name</span><span class="p">)</span>
+        <span class="c"># swb.Close(1)</span>
+        <span class="n">sin_ex</span><span class="o">.</span><span class="n">close_workbook</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s">&#39;sites_in.xlsx file not present.&#39;</span><span class="p">)</span>
+        <span class="c"># cwb.Close(0)</span>
+        <span class="c"># ex.close()</span>
+        <span class="c"># cp_ex.close_workbook(0)</span>
+        <span class="k">raise</span> <span class="ne">SystemExit</span>   
+
+    <span class="c"># cwb.Close(0)</span>
+    <span class="c"># cp_ex.close_workbook(0)</span>
+
+    <span class="k">return</span> <span class="n">sites</span></div>
+
+
+<div class="viewcode-block" id="write_output"><a class="viewcode-back" href="../../api/main.html#cons2.main.write_output">[docs]</a><span class="k">def</span> <span class="nf">write_output</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Writes summary data for consumptive use, effective precipitation,</span>
+<span class="sd">    and irrigrated consumptive for the whole site.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    directory: string</span>
+<span class="sd">        Directory where .csv files will be saved.</span>
+<span class="sd">    name: string</span>
+<span class="sd">        Name of the site.</span>
+<span class="sd">    years: list</span>
+<span class="sd">        List of integer years for the site.</span>
+<span class="sd">    data: list</span>
+<span class="sd">        List of arrays containing the data for each variable.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">var_names</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;pcu&#39;</span><span class="p">,</span> <span class="s">&#39;pre&#39;</span><span class="p">,</span> <span class="s">&#39;pcuir&#39;</span><span class="p">,</span> <span class="s">&#39;totals&#39;</span><span class="p">]</span>
+
+    <span class="n">headers</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="s">&#39;Jan.&#39;</span><span class="p">,</span> <span class="s">&#39;Feb.&#39;</span><span class="p">,</span> <span class="s">&#39;Mar.&#39;</span><span class="p">,</span> <span class="s">&#39;Apr.&#39;</span><span class="p">,</span> <span class="s">&#39;May&#39;</span><span class="p">,</span> <span class="s">&#39;Jun.&#39;</span><span class="p">,</span> <span class="s">&#39;Jul.&#39;</span><span class="p">,</span>
+        <span class="s">&#39;Aug.&#39;</span><span class="p">,</span> <span class="s">&#39;Sept.&#39;</span><span class="p">,</span> <span class="s">&#39;Oct.&#39;</span><span class="p">,</span> <span class="s">&#39;Nov.&#39;</span><span class="p">,</span> <span class="s">&#39;Dec.&#39;</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
+        <span class="n">outfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span><span class="s">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">var_names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+            <span class="n">name</span> <span class="o">+</span> <span class="s">&#39;.csv&#39;</span><span class="p">])),</span> <span class="s">&#39;w&#39;</span><span class="p">)</span>
+        <span class="n">outlines</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">headers</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">pdata</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">yr</span><span class="p">]]</span>
+            <span class="n">outlines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">years</span><span class="p">[</span><span class="n">yr</span><span class="p">]),</span> <span class="o">*</span><span class="n">pdata</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">]))</span>
+
+        <span class="n">pdata</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span>
+
+        <span class="n">outlines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s">&#39;average&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">pdata</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">]))</span>
+
+        <span class="n">outfile</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">outlines</span><span class="p">)</span>
+        <span class="n">outfile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="n">headers</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;cu&#39;</span><span class="p">,</span> <span class="s">&#39;re&#39;</span><span class="p">,</span> <span class="s">&#39;cuirr&#39;</span><span class="p">]</span>
+
+    <span class="n">outfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span><span class="s">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">var_names</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+        <span class="n">name</span> <span class="o">+</span> <span class="s">&#39;.csv&#39;</span><span class="p">])),</span> <span class="s">&#39;w&#39;</span><span class="p">)</span>
+    <span class="n">outlines</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">headers</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">years</span><span class="p">)):</span>
+        <span class="n">pdata</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])]</span>
+        <span class="n">outlines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">years</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="o">*</span><span class="n">pdata</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">]))</span>
+        
+    <span class="n">pdata</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">][:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="mi">2</span><span class="p">)),</span>
+        <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">][:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="mi">2</span><span class="p">)),</span>
+        <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">][:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="p">]</span>
+    <span class="n">outlines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s">&#39;average&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">pdata</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">]))</span>
+
+
+    <span class="n">outfile</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">outlines</span><span class="p">)</span>
+    <span class="n">outfile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;finished writing site wide output files for: &#39;</span> <span class="o">+</span> <span class="n">name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="write_crp_output"><a class="viewcode-back" href="../../api/main.html#cons2.main.write_crp_output">[docs]</a><span class="k">def</span> <span class="nf">write_crp_output</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">cname</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">dates</span><span class="p">,</span> <span class="n">starts</span><span class="p">,</span> 
+                     <span class="n">ends</span><span class="p">,</span> <span class="n">bwrite</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Writes output data for each crop.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    directory: string</span>
+<span class="sd">        Directory where .csv files will be saved.</span>
+<span class="sd">    name: string</span>
+<span class="sd">        Name of the site.</span>
+<span class="sd">    cname:</span>
+<span class="sd">        Name of the crop.</span>
+<span class="sd">    years: list</span>
+<span class="sd">        List of integer years for the site.</span>
+<span class="sd">    data: list</span>
+<span class="sd">        List of arrays containing the data for each variable.</span>
+<span class="sd">    dates: list</span>
+<span class="sd">        Planting season dates.</span>
+<span class="sd">    starts: list</span>
+<span class="sd">        List of Julian dates for the begining of the growing season.</span>
+<span class="sd">    ends: list</span>
+<span class="sd">        List of Julian dates for the end of the gowring season.</span>
+<span class="sd">    bwrite: boolean</span>
+<span class="sd">        Logical determing whether or not to print individual crop files.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">var_names</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;cu&#39;</span><span class="p">,</span> <span class="s">&#39;re&#39;</span><span class="p">,</span> <span class="s">&#39;cuirr&#39;</span><span class="p">,</span> <span class="s">&#39;totals&#39;</span><span class="p">]</span>
+
+    <span class="n">headers</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="s">&#39;Jan.&#39;</span><span class="p">,</span> <span class="s">&#39;Feb.&#39;</span><span class="p">,</span> <span class="s">&#39;Mar.&#39;</span><span class="p">,</span> <span class="s">&#39;Apr.&#39;</span><span class="p">,</span> <span class="s">&#39;May&#39;</span><span class="p">,</span> <span class="s">&#39;Jun.&#39;</span><span class="p">,</span> <span class="s">&#39;Jul.&#39;</span><span class="p">,</span>
+        <span class="s">&#39;Aug.&#39;</span><span class="p">,</span> <span class="s">&#39;Sept.&#39;</span><span class="p">,</span> <span class="s">&#39;Oct.&#39;</span><span class="p">,</span> <span class="s">&#39;Nov.&#39;</span><span class="p">,</span> <span class="s">&#39;Dec.&#39;</span><span class="p">]</span>
+
+    <span class="c"># write output file for each crop variable</span>
+    <span class="k">if</span> <span class="n">bwrite</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
+            <span class="n">outfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span><span class="s">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">var_names</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> 
+                           <span class="n">name</span><span class="p">,</span> <span class="n">cname</span> <span class="o">+</span> <span class="s">&#39;.csv&#39;</span><span class="p">])),</span> <span class="s">&#39;w&#39;</span><span class="p">)</span>
+            <span class="c"># outfile = open(name + &#39;_&#39; + cname + &#39;_&#39; + var_names[i] + &#39;.csv&#39;, &#39;w&#39;)</span>
+            <span class="n">outlines</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">headers</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                <span class="n">pdata</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">yr</span><span class="p">]]</span>
+                <span class="n">outlines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">years</span><span class="p">[</span><span class="n">yr</span><span class="p">]),</span> <span class="o">*</span><span class="n">pdata</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">]))</span>
+
+            <span class="n">pdata</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span>
+
+            <span class="n">outlines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s">&#39;average&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">pdata</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">]))</span>
+
+            <span class="n">outlines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s">&#39;growing season&#39;</span><span class="p">,</span> <span class="s">&#39;start&#39;</span><span class="p">,</span> <span class="s">&#39;end&#39;</span><span class="p">,</span>
+                                     <span class="s">&#39;length&#39;</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">]))</span>
+            <span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">years</span><span class="p">)):</span>
+                <span class="n">temp_dates</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="s">&#39;{}/{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dates</span><span class="p">[</span><span class="n">years</span><span class="p">[</span><span class="n">yr</span><span class="p">]][</span><span class="s">&#39;nbegmo&#39;</span><span class="p">],</span> 
+                        <span class="n">dates</span><span class="p">[</span><span class="n">years</span><span class="p">[</span><span class="n">yr</span><span class="p">]][</span><span class="s">&#39;nbegda&#39;</span><span class="p">]),</span>
+                    <span class="s">&#39;{}/{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dates</span><span class="p">[</span><span class="n">years</span><span class="p">[</span><span class="n">yr</span><span class="p">]][</span><span class="s">&#39;nendmo&#39;</span><span class="p">],</span>
+                        <span class="n">dates</span><span class="p">[</span><span class="n">years</span><span class="p">[</span><span class="n">yr</span><span class="p">]][</span><span class="s">&#39;nendda&#39;</span><span class="p">]),</span>
+                    <span class="s">&#39;{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ends</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span><span class="o">-</span><span class="n">starts</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span>
+                <span class="p">]</span>
+                <span class="n">outlines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">years</span><span class="p">[</span><span class="n">yr</span><span class="p">]),</span> <span class="o">*</span><span class="n">temp_dates</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">]))</span>
+
+            <span class="n">outfile</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">outlines</span><span class="p">)</span>
+            <span class="n">outfile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="c"># write output file for the totals for each variable. </span>
+    <span class="n">headers</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;cu&#39;</span><span class="p">,</span> <span class="s">&#39;re&#39;</span><span class="p">,</span> <span class="s">&#39;cuirr&#39;</span><span class="p">]</span>
+
+    <span class="n">outfile</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span><span class="s">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">var_names</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">name</span><span class="p">,</span>
+                   <span class="n">cname</span> <span class="o">+</span> <span class="s">&#39;.csv&#39;</span><span class="p">])),</span> <span class="s">&#39;w&#39;</span><span class="p">)</span>
+    <span class="n">outlines</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">headers</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">years</span><span class="p">)):</span>
+        <span class="n">pdata</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]),</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]),</span> 
+            <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="p">]</span>
+        <span class="n">outlines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">years</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="o">*</span><span class="n">pdata</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">]))</span>
+        
+    <span class="n">pdata</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">][:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="mi">2</span><span class="p">)),</span>
+        <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">][:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="mi">2</span><span class="p">)),</span>
+        <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">][:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="p">]</span>
+    <span class="n">outlines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s">&#39;average&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">pdata</span><span class="p">,</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">]))</span>
+
+    <span class="n">outfile</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">outlines</span><span class="p">)</span>
+    <span class="n">outfile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;finished writing &#39;</span> <span class="o">+</span> <span class="n">cname</span> <span class="o">+</span> <span class="s">&#39; output files for : &#39;</span> <span class="o">+</span> <span class="n">name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="write_excel_monthly"><a class="viewcode-back" href="../../api/main.html#cons2.main.write_excel_monthly">[docs]</a><span class="k">def</span> <span class="nf">write_excel_monthly</span><span class="p">(</span><span class="n">wb</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">etmethod</span><span class="p">,</span> <span class="n">acrop</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">dates</span><span class="p">,</span> <span class="n">starts</span><span class="p">,</span> 
+        <span class="n">ends</span><span class="p">):</span>
+    <span class="n">var_names</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;CU&#39;</span><span class="p">,</span> <span class="s">&#39;Eff. P&#39;</span><span class="p">,</span> <span class="s">&#39;Net CU&#39;</span><span class="p">,</span> <span class="s">&#39;Totals&#39;</span><span class="p">]</span>
+
+    <span class="n">headers</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;Jan.&#39;</span><span class="p">,</span> <span class="s">&#39;Feb.&#39;</span><span class="p">,</span> <span class="s">&#39;Mar.&#39;</span><span class="p">,</span> <span class="s">&#39;Apr.&#39;</span><span class="p">,</span> <span class="s">&#39;May&#39;</span><span class="p">,</span> <span class="s">&#39;Jun.&#39;</span><span class="p">,</span> <span class="s">&#39;Jul.&#39;</span><span class="p">,</span>
+        <span class="s">&#39;Aug.&#39;</span><span class="p">,</span> <span class="s">&#39;Sept.&#39;</span><span class="p">,</span> <span class="s">&#39;Oct.&#39;</span><span class="p">,</span> <span class="s">&#39;Nov.&#39;</span><span class="p">,</span> <span class="s">&#39;Dec.&#39;</span><span class="p">,</span> <span class="s">&#39;Total&#39;</span><span class="p">]</span>
+
+    <span class="n">cname</span> <span class="o">=</span> <span class="n">acrop</span><span class="o">.</span><span class="n">nickname</span>
+    <span class="n">cname</span> <span class="o">=</span> <span class="n">cname</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="n">cname</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
+    <span class="n">sheets</span> <span class="o">=</span> <span class="n">wb</span><span class="o">.</span><span class="n">Worksheets</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ws</span> <span class="o">=</span> <span class="n">sheets</span><span class="p">(</span><span class="n">cname</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">ws</span> <span class="o">=</span> <span class="n">sheets</span><span class="o">.</span><span class="n">Add</span><span class="p">()</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="n">cname</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="n">cname</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Font</span><span class="o">.</span><span class="n">Bold</span> <span class="o">=</span> <span class="k">True</span>
+
+    <span class="k">if</span> <span class="n">etmethod</span> <span class="o">==</span> <span class="s">&#39;fao&#39;</span><span class="p">:</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="s">&#39;Season Type&#39;</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">Font</span><span class="o">.</span><span class="n">Bold</span> <span class="o">=</span> <span class="k">True</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="n">acrop</span><span class="o">.</span><span class="n">stype</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="s">&#39;Kc Num&#39;</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">Font</span><span class="o">.</span><span class="n">Bold</span> <span class="o">=</span> <span class="k">True</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="n">acrop</span><span class="o">.</span><span class="n">kcnum</span>   
+
+    <span class="n">rind</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="s">&#39;Growing Season&#39;</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="s">&#39;Start&#39;</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="s">&#39;End&#39;</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="s">&#39;Length&#39;</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">Range</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span><span class="o">.</span><span class="n">Font</span><span class="o">.</span><span class="n">Bold</span> <span class="o">=</span> <span class="k">True</span>
+
+    <span class="n">tind</span> <span class="o">=</span> <span class="n">rind</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">years</span><span class="p">)):</span>
+        <span class="n">rind</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">temp_dates</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s">&#39;{}/{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dates</span><span class="p">[</span><span class="n">years</span><span class="p">[</span><span class="n">yr</span><span class="p">]][</span><span class="s">&#39;nbegmo&#39;</span><span class="p">],</span> 
+                <span class="n">dates</span><span class="p">[</span><span class="n">years</span><span class="p">[</span><span class="n">yr</span><span class="p">]][</span><span class="s">&#39;nbegda&#39;</span><span class="p">]),</span>
+            <span class="s">&#39;{}/{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dates</span><span class="p">[</span><span class="n">years</span><span class="p">[</span><span class="n">yr</span><span class="p">]][</span><span class="s">&#39;nendmo&#39;</span><span class="p">],</span>
+                <span class="n">dates</span><span class="p">[</span><span class="n">years</span><span class="p">[</span><span class="n">yr</span><span class="p">]][</span><span class="s">&#39;nendda&#39;</span><span class="p">]),</span>
+            <span class="s">&#39;{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ends</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span><span class="o">-</span><span class="n">starts</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span>
+        <span class="p">]</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">years</span><span class="p">[</span><span class="n">yr</span><span class="p">])</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="n">temp_dates</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">NumberFormat</span> <span class="o">=</span> <span class="s">&quot;MM/dd&quot;</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="n">temp_dates</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">NumberFormat</span> <span class="o">=</span> <span class="s">&quot;MM/dd&quot;</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="n">temp_dates</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">Range</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">tind</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">Font</span><span class="o">.</span><span class="n">Bold</span> <span class="o">=</span> <span class="k">True</span>   
+
+    <span class="c"># rind += 1</span>
+    <span class="c"># write output file for each crop variable</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
+        <span class="n">rind</span> <span class="o">+=</span> <span class="mi">2</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="n">var_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">headers</span><span class="p">)):</span>
+            <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="n">headers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+            <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">Font</span><span class="o">.</span><span class="n">Bold</span> <span class="o">=</span> <span class="k">True</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">Range</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">headers</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">Font</span><span class="o">.</span><span class="n">Bold</span> <span class="o">=</span> <span class="k">True</span>   
+
+        <span class="n">tind</span> <span class="o">=</span> <span class="n">rind</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="n">rind</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">pdata</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">yr</span><span class="p">]]</span>
+            <span class="c"># if etmethod == &#39;bc&#39;:</span>
+            <span class="n">pdata</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">item</span><span class="o">/</span><span class="mf">12.0</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">yr</span><span class="p">]]</span>
+            <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">years</span><span class="p">[</span><span class="n">yr</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pdata</span><span class="p">)):</span>
+                <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="n">pdata</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">Range</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">tind</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">Font</span><span class="o">.</span><span class="n">Bold</span> <span class="o">=</span> <span class="k">True</span>   
+
+        <span class="n">rind</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">pdata</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span>
+        <span class="c"># if etmethod == &#39;bc&#39;:</span>
+        <span class="n">pdata</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">item</span><span class="o">/</span><span class="mf">12.0</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span>        
+        <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="s">&#39;Average&#39;</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Font</span><span class="o">.</span><span class="n">Bold</span> <span class="o">=</span> <span class="k">True</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pdata</span><span class="p">)):</span>
+            <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="n">j</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="n">pdata</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">Columns</span><span class="o">.</span><span class="n">AutoFit</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="write_excel_yearly"><a class="viewcode-back" href="../../api/main.html#cons2.main.write_excel_yearly">[docs]</a><span class="k">def</span> <span class="nf">write_excel_yearly</span><span class="p">(</span><span class="n">wb</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">etmethod</span><span class="p">,</span> <span class="n">acrop</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">dates</span><span class="p">,</span> <span class="n">starts</span><span class="p">,</span> 
+        <span class="n">ends</span><span class="p">,</span> <span class="n">rind</span><span class="p">):</span>
+
+    <span class="n">cname</span> <span class="o">=</span> <span class="n">acrop</span><span class="o">.</span><span class="n">nickname</span>
+    <span class="n">cname</span> <span class="o">=</span> <span class="n">cname</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="n">cname</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
+    <span class="n">sheets</span> <span class="o">=</span> <span class="n">wb</span><span class="o">.</span><span class="n">Worksheets</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ws</span> <span class="o">=</span> <span class="n">sheets</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">ws</span> <span class="o">=</span> <span class="n">sheets</span><span class="o">.</span><span class="n">Add</span><span class="p">()</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="n">name</span>
+
+    <span class="c"># write output file for the totals for each variable. </span>
+    <span class="c"># headers = [&#39;CU&#39;, &#39;Eff. P.&#39;, &#39;Net CU&#39;]</span>
+    <span class="c"># units = [&#39; (in.)&#39;, &#39; (ft.)&#39;]</span>
+
+    <span class="n">rind</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="n">cname</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Font</span><span class="o">.</span><span class="n">Bold</span> <span class="o">=</span> <span class="k">True</span>
+    <span class="k">if</span> <span class="n">etmethod</span> <span class="o">==</span> <span class="s">&#39;fao&#39;</span><span class="p">:</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="s">&#39;Season Type&#39;</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">Font</span><span class="o">.</span><span class="n">Bold</span> <span class="o">=</span> <span class="k">True</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="n">acrop</span><span class="o">.</span><span class="n">stype</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="s">&#39;Kc Num&#39;</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">Font</span><span class="o">.</span><span class="n">Bold</span> <span class="o">=</span> <span class="k">True</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="n">acrop</span><span class="o">.</span><span class="n">kcnum</span>    
+ 
+    <span class="n">tind</span> <span class="o">=</span> <span class="n">rind</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">years</span><span class="p">)):</span>
+        <span class="n">rind</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">years</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Font</span><span class="o">.</span><span class="n">Bold</span> <span class="o">=</span> <span class="k">True</span>
+        <span class="n">pdata</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">2</span><span class="p">)),</span>
+            <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">2</span><span class="p">)),</span> 
+            <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">2</span><span class="p">))</span>
+            <span class="p">]</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+            <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">2</span><span class="o">+</span><span class="n">j</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="n">pdata</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+            <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">5</span><span class="o">+</span><span class="n">j</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">pdata</span><span class="p">[</span><span class="n">j</span><span class="p">])</span><span class="o">/</span><span class="mf">12.0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>            
+        <span class="c"># if etmethod == &#39;bc&#39;:</span>
+        <span class="c">#     for j in range(3):</span>
+        <span class="c">#         ws.Cells(rind, 2+j).Value = pdata[j]</span>
+        <span class="c">#     for j in range(3):</span>
+        <span class="c">#         ws.Cells(rind, 5+j).Value = round(float(pdata[j])/12.0, 2)</span>
+        <span class="c"># elif etmethod == &#39;fao&#39;:</span>
+        <span class="c">#     for j in range(3):</span>
+        <span class="c">#         ws.Cells(rind, 2+j).Value = round(float(pdata[j])*12.0, 2)</span>
+        <span class="c">#     for j in range(3):</span>
+        <span class="c">#         ws.Cells(rind, 5+j).Value = pdata[j]                 </span>
+
+    <span class="n">rind</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">pdata</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">][:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="mi">2</span><span class="p">)),</span>
+        <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">][:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="mi">2</span><span class="p">)),</span>
+        <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">][:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="p">]</span>
+    <span class="n">ws</span><span class="o">.</span><span class="n">Range</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">tind</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">Font</span><span class="o">.</span><span class="n">Bold</span> <span class="o">=</span> <span class="k">True</span>  
+
+    <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="s">&#39;Average&#39;</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">2</span><span class="o">+</span><span class="n">j</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="n">pdata</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">5</span><span class="o">+</span><span class="n">j</span><span class="p">)</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">pdata</span><span class="p">[</span><span class="n">j</span><span class="p">])</span><span class="o">/</span><span class="mf">12.0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>    
+    <span class="c"># if etmethod == &#39;bc&#39;:</span>
+    <span class="c">#     for j in range(3):</span>
+    <span class="c">#         ws.Cells(rind, 2+j).Value = pdata[j]</span>
+    <span class="c">#     for j in range(3):</span>
+    <span class="c">#         ws.Cells(rind, 5+j).Value = round(float(pdata[j])/12.0, 2)</span>
+    <span class="c"># elif etmethod == &#39;fao&#39;:</span>
+    <span class="c">#     for j in range(3):</span>
+    <span class="c">#         ws.Cells(rind, 2+j).Value = round(float(pdata[j])*12.0, 2)   </span>
+    <span class="c">#     for j in range(3):</span>
+    <span class="c">#         ws.Cells(rind, 5+j).Value = pdata[j]         </span>
+
+    <span class="n">ws</span><span class="o">.</span><span class="n">Columns</span><span class="o">.</span><span class="n">AutoFit</span><span class="p">()</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;finished writing output files for : &#39;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s">&#39;, &#39;</span> <span class="o">+</span> <span class="n">cname</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="run"><a class="viewcode-back" href="../../api/main.html#cons2.main.run">[docs]</a><span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Runs the CONS2 program.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">vis</span> <span class="o">=</span> <span class="k">True</span>
+
+    <span class="c"># crops = import_crops()</span>
+
+    <span class="c"># ex = excel.Excel(vis)</span>
+
+    <span class="c"># ex.setVis(False)</span>
+
+    <span class="c"># crops = [ALFALFA]</span>
+    <span class="c"># sparms, cparms = get_data(&#39;noga.i&#39;)</span>
+    <span class="c"># print(len(crp_classes))</span>
+
+    <span class="n">directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">sites</span> <span class="o">=</span> <span class="n">import_data</span><span class="p">(</span><span class="n">vis</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&#39;Error Occurred&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s">&#39;traceback:&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">))</span>
+        <span class="k">raise</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;initialized sites&#39;</span><span class="p">)</span>
+
+    <span class="c"># print(len(sites))</span>
+    <span class="c"># print(sites[0])</span>
+
+    <span class="c"># creates results directory</span>
+    <span class="n">results_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="s">&#39;results&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">results_dir</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="s">&#39;results&#39;</span><span class="p">))</span>
+
+    <span class="c"># wb_yearly = None</span>
+    <span class="c"># siteout_path = os.path.join(results_dir, &#39;sites_out.xlsx&#39;)</span>
+
+    <span class="c"># if os.path.exists(siteout_path):</span>
+    <span class="c">#     wb_yearly = ex.open_workbook(siteout_path, vis)</span>
+    <span class="c">#     if wb_yearly == None:</span>
+    <span class="c">#         logger.critical(&#39;Close workbook: &#39;+&#39;sites_out.xlsx&#39;)</span>
+    <span class="c">#         raise SystemExit</span>
+    <span class="c">#     else:</span>
+    <span class="c">#         wb_yearly.Close(0)</span>
+    <span class="c">#     os.remove(siteout_path)</span>
+    <span class="c"># wb_yearly = ex.createBook(siteout_path, vis)</span>
+    <span class="c"># wb_yearly = ex.open_workbook(siteout_path, vis)</span>
+
+    <span class="c"># run through each site</span>
+    <span class="k">for</span> <span class="n">site</span> <span class="ow">in</span> <span class="n">sites</span><span class="p">:</span>
+    <span class="c"># for site in [sites[0]]:        </span>
+    <span class="c"># for site in []:    </span>
+
+        <span class="c"># wx_years = list(set(wx.data.index.year)) </span>
+
+        <span class="c">#### do this comparison differently, to be more robust ####</span>
+        <span class="c"># if (not np.all(sorted(list(set(wx.data.index.year))) == site.sp.yrs)) or \</span>
+        <span class="c">#     (len(list(set(wx.data.index.year))) &lt; len(site.sp.yrs)):</span>
+        <span class="c">#         logger.critical(site.name.upper() + \</span>
+        <span class="c">#             &#39;: Missing weather data.&#39;)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">site</span><span class="o">.</span><span class="n">wx</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span><span class="p">)))</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">site</span><span class="o">.</span><span class="n">yrs</span><span class="p">):</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="n">site</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> \
+                    <span class="s">&#39;: Missing weather data.&#39;</span><span class="p">)</span>                
+                <span class="k">raise</span> <span class="ne">SystemExit</span>
+
+        <span class="k">for</span> <span class="n">ayear</span> <span class="ow">in</span> <span class="n">site</span><span class="o">.</span><span class="n">yrs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ayear</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">site</span><span class="o">.</span><span class="n">wx</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">year</span><span class="p">)):</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="n">site</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> \
+                        <span class="s">&#39;: Missing weather data.&#39;</span><span class="p">)</span>                
+                    <span class="k">raise</span> <span class="ne">SystemExit</span>                 
+
+        <span class="c"># for year in site.sp.yrs:</span>
+        <span class="c">#     if year not in wx.data.index.year:</span>
+        <span class="c">#         logger.critical(&#39;Weather year missing: &#39; + str(year))</span>
+        <span class="c">#         raise SystemExit                </span>
+
+        <span class="n">rind</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="k">for</span> <span class="n">acrop</span> <span class="ow">in</span> <span class="n">site</span><span class="o">.</span><span class="n">crops</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">rind</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+
+                <span class="n">sname</span> <span class="o">=</span> <span class="n">site</span><span class="o">.</span><span class="n">site_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
+                <span class="n">sname</span> <span class="o">=</span> <span class="n">sname</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot;.&quot;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
+
+                <span class="n">wx_type</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">site</span><span class="o">.</span><span class="n">wx_file</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="n">site</span><span class="o">.</span><span class="n">wx_file</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span>
+
+                <span class="n">filename</span> <span class="o">=</span> <span class="s">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+                    <span class="n">sname</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span>
+                    <span class="n">site</span><span class="o">.</span><span class="n">crop_param_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span>
+                    <span class="n">site</span><span class="o">.</span><span class="n">et_method</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span>
+                    <span class="n">wx_type</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span>
+                    <span class="n">site</span><span class="o">.</span><span class="n">wx_location</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">(),])</span>
+
+                <span class="n">sname_monthly</span> <span class="o">=</span> <span class="s">&#39;Monthly_&#39;</span> <span class="o">+</span> <span class="n">filename</span>
+                <span class="n">sname_yearly</span> <span class="o">=</span> <span class="s">&#39;Yearly_&#39;</span> <span class="o">+</span> <span class="n">filename</span>            
+
+                <span class="n">wb_monthly</span> <span class="o">=</span> <span class="k">None</span>
+                <span class="n">site_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">results_dir</span><span class="p">,</span> <span class="n">sname_monthly</span> <span class="o">+</span> <span class="s">&#39;.xlsx&#39;</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">site_path</span><span class="p">):</span>
+                    <span class="c"># wb_monthly = ex.open_workbook(site_path, vis)</span>
+                    <span class="c"># if wb_monthly == None:</span>
+                    <span class="c">#     logger.critical(&#39;Close workbook: &#39;+sname_monthly + &#39;.xlsx&#39;)</span>
+                    <span class="c">#     raise SystemExit</span>
+                    <span class="c"># else:</span>
+                    <span class="c">#     # wb_monthly.Close(0)</span>
+                    <span class="c">#     ex.close_workbook(wb_monthly, 0)</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">site_path</span><span class="p">)</span>
+                    <span class="k">except</span> <span class="ne">PermissionError</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s">&#39;Close workbook: &#39;</span> <span class="o">+</span> <span class="n">sname_monthly</span> <span class="o">+</span> <span class="s">&#39;.xlsx&#39;</span><span class="p">)</span>
+                        <span class="k">raise</span> <span class="ne">SystemExit</span>
+                <span class="n">wbm_ex</span> <span class="o">=</span> <span class="n">excel</span><span class="o">.</span><span class="n">Excel</span><span class="p">(</span><span class="n">site_path</span><span class="p">,</span> <span class="n">vis</span><span class="p">,</span> <span class="n">create</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+                <span class="n">wb_monthly</span> <span class="o">=</span> <span class="n">wbm_ex</span><span class="o">.</span><span class="n">wb</span>
+                <span class="c"># wb_monthly = ex.open_workbook(site_path, vis)</span>
+
+                <span class="n">wb_yearly</span> <span class="o">=</span> <span class="k">None</span>
+                <span class="n">siteout_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">results_dir</span><span class="p">,</span> <span class="n">sname_yearly</span> <span class="o">+</span> <span class="s">&#39;.xlsx&#39;</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">siteout_path</span><span class="p">):</span>
+                    <span class="c"># wb_yearly = ex.open_workbook(siteout_path, vis)</span>
+                    <span class="c"># if wb_yearly == None:</span>
+                    <span class="c">#     logger.critical(&#39;Close workbook: &#39;+ sname_yearly + &#39;.xlsx&#39;)</span>
+                    <span class="c">#     raise SystemExit</span>
+                    <span class="c"># else:</span>
+                    <span class="c">#     # wb_yearly.Close(0)</span>
+                    <span class="c">#     ex.close_workbook(wb_yearly, 0)</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">siteout_path</span><span class="p">)</span>
+                    <span class="k">except</span> <span class="ne">PermissionError</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s">&#39;Close workbook: &#39;</span> <span class="o">+</span> <span class="n">sname_monthly</span> <span class="o">+</span> <span class="s">&#39;.xlsx&#39;</span><span class="p">)</span>
+                        <span class="k">raise</span> <span class="ne">SystemExit</span>
+                <span class="n">wby_ex</span> <span class="o">=</span> <span class="n">excel</span><span class="o">.</span><span class="n">Excel</span><span class="p">(</span><span class="n">siteout_path</span><span class="p">,</span> <span class="n">vis</span><span class="p">,</span> <span class="n">create</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+                <span class="n">wb_yearly</span> <span class="o">=</span> <span class="n">wby_ex</span><span class="o">.</span><span class="n">wb</span>
+                <span class="c"># wb_yearly = ex.createBook(siteout_path, vis)</span>
+
+                <span class="n">sheets</span> <span class="o">=</span> <span class="n">wb_yearly</span><span class="o">.</span><span class="n">Worksheets</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">ws</span> <span class="o">=</span> <span class="n">sheets</span><span class="p">(</span><span class="n">site</span><span class="o">.</span><span class="n">site_name</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="n">ws</span> <span class="o">=</span> <span class="n">sheets</span><span class="o">.</span><span class="n">Add</span><span class="p">()</span>
+                    <span class="n">ws</span><span class="o">.</span><span class="n">Name</span> <span class="o">=</span> <span class="n">site</span><span class="o">.</span><span class="n">site_name</span>
+
+                <span class="n">headers</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;CU&#39;</span><span class="p">,</span> <span class="s">&#39;Eff. P.&#39;</span><span class="p">,</span> <span class="s">&#39;Net CU&#39;</span><span class="p">]</span>
+                <span class="n">units</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39; (in.)&#39;</span><span class="p">,</span> <span class="s">&#39; (ft.)&#39;</span><span class="p">]</span>
+
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+                        <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="o">+</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">j</span><span class="p">))</span><span class="o">.</span><span class="n">Value</span> <span class="o">=</span> <span class="n">headers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">units</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                <span class="n">ws</span><span class="o">.</span><span class="n">Range</span><span class="p">(</span><span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">ws</span><span class="o">.</span><span class="n">Cells</span><span class="p">(</span><span class="n">rind</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span><span class="o">.</span><span class="n">Font</span><span class="o">.</span><span class="n">Bold</span> <span class="o">=</span> <span class="k">True</span>
+
+            <span class="c"># instantiate a crop class object</span>
+            <span class="c"># try:</span>
+            <span class="c">#     ind = crp_classes.index(crop.name)</span>
+            <span class="c">#     crp = crp_classes[ind](crop, site, wx)</span>
+
+            <span class="c"># except Exception as err:</span>
+            <span class="c">#     logger.exception(&#39;Error occurred creating site object: &#39; </span>
+            <span class="c">#         + site.name </span>
+            <span class="c">#         + &#39;, &#39; + crop)</span>
+            <span class="c">#     # logger.critical(&#39;traceback:&#39; + str(err))</span>
+            <span class="c">#     raise</span>
+
+            <span class="c"># calculate consumptive use</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">acrop</span><span class="o">.</span><span class="n">cu</span><span class="o">.</span><span class="n">calc_cu</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&#39;Error occurred calculating consumptive use&#39;</span><span class="p">)</span>
+                <span class="c"># logger.critical(&#39;traceback:&#39; + str(err))</span>
+                <span class="k">raise</span>  
+
+            <span class="c"># print(acrop.__dict__)</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">write_excel_monthly</span><span class="p">(</span>
+                                    <span class="n">wb_monthly</span><span class="p">,</span>
+                                    <span class="n">site</span><span class="o">.</span><span class="n">site_name</span><span class="p">,</span>
+                                    <span class="n">site</span><span class="o">.</span><span class="n">et_method</span><span class="p">,</span>
+                                    <span class="n">acrop</span><span class="p">,</span>
+                                    <span class="n">site</span><span class="o">.</span><span class="n">yrs</span><span class="p">,</span>
+                                    <span class="p">[</span><span class="n">acrop</span><span class="o">.</span><span class="n">cu</span><span class="o">.</span><span class="n">ppcu</span><span class="p">,</span> <span class="n">acrop</span><span class="o">.</span><span class="n">cu</span><span class="o">.</span><span class="n">ppre</span><span class="p">,</span> <span class="n">acrop</span><span class="o">.</span><span class="n">cu</span><span class="o">.</span><span class="n">pcuir</span><span class="p">],</span>
+                                    <span class="n">acrop</span><span class="o">.</span><span class="n">cu</span><span class="o">.</span><span class="n">grow_dates</span><span class="p">,</span>
+                                    <span class="n">acrop</span><span class="o">.</span><span class="n">cu</span><span class="o">.</span><span class="n">beg</span><span class="p">,</span>
+                                    <span class="n">acrop</span><span class="o">.</span><span class="n">cu</span><span class="o">.</span><span class="n">end</span><span class="p">,)</span>
+                <span class="n">write_excel_yearly</span><span class="p">(</span>
+                                    <span class="n">wb_yearly</span><span class="p">,</span>
+                                    <span class="n">site</span><span class="o">.</span><span class="n">site_name</span><span class="p">,</span>
+                                    <span class="n">site</span><span class="o">.</span><span class="n">et_method</span><span class="p">,</span>
+                                    <span class="n">acrop</span><span class="p">,</span>
+                                    <span class="n">site</span><span class="o">.</span><span class="n">yrs</span><span class="p">,</span>
+                                    <span class="p">[</span><span class="n">acrop</span><span class="o">.</span><span class="n">cu</span><span class="o">.</span><span class="n">ppcu</span><span class="p">,</span> <span class="n">acrop</span><span class="o">.</span><span class="n">cu</span><span class="o">.</span><span class="n">ppre</span><span class="p">,</span> <span class="n">acrop</span><span class="o">.</span><span class="n">cu</span><span class="o">.</span><span class="n">pcuir</span><span class="p">],</span>
+                                    <span class="n">acrop</span><span class="o">.</span><span class="n">cu</span><span class="o">.</span><span class="n">grow_dates</span><span class="p">,</span>
+                                    <span class="n">acrop</span><span class="o">.</span><span class="n">cu</span><span class="o">.</span><span class="n">beg</span><span class="p">,</span>
+                                    <span class="n">acrop</span><span class="o">.</span><span class="n">cu</span><span class="o">.</span><span class="n">end</span><span class="p">,</span>
+                                    <span class="n">rind</span><span class="p">)</span>
+                <span class="n">rind</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">site</span><span class="o">.</span><span class="n">yrs</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&#39;Error occurred writing outfiles&#39;</span><span class="p">)</span>
+                <span class="c"># logger.critical(&#39;traceback:&#39; + str(err))</span>
+                <span class="k">raise</span>     
+
+            <span class="c"># site summarize site wide variable for each variable for each month</span>
+            <span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">site</span><span class="o">.</span><span class="n">yrs</span><span class="p">)):</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">13</span><span class="p">):</span>
+                    <span class="n">site</span><span class="o">.</span><span class="n">pcu</span><span class="p">[</span><span class="n">yr</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="o">+=</span> <span class="n">acrop</span><span class="o">.</span><span class="n">cu</span><span class="o">.</span><span class="n">pcu</span><span class="p">[</span><span class="n">yr</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span>
+                    <span class="n">site</span><span class="o">.</span><span class="n">pre</span><span class="p">[</span><span class="n">yr</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="o">+=</span> <span class="n">acrop</span><span class="o">.</span><span class="n">cu</span><span class="o">.</span><span class="n">pre</span><span class="p">[</span><span class="n">yr</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span>
+                    <span class="n">site</span><span class="o">.</span><span class="n">pcuirr</span><span class="p">[</span><span class="n">yr</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="o">+=</span> <span class="n">acrop</span><span class="o">.</span><span class="n">cu</span><span class="o">.</span><span class="n">pcuirr</span><span class="p">[</span><span class="n">yr</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span>
+
+        <span class="n">wbm_ex</span><span class="o">.</span><span class="n">close_workbook</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">wby_ex</span><span class="o">.</span><span class="n">close_workbook</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c"># ex.close()</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;finished with run for: &#39;</span> <span class="o">+</span> <span class="n">site</span><span class="o">.</span><span class="n">site_name</span><span class="p">)</span>
+
+    <span class="c"># ex.close()</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;CONS2 Finished&#39;</span><span class="p">)</span></div>
+    
+
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../api/main.html#cons2.main.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    
+    <span class="n">run</span><span class="p">()</span></div>
+
+<span class="k">if</span> <span class="n">__name__</span><span class="o">==</span><span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">main</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&#39;Error occurred in main()&#39;</span><span class="p">)</span>
+            <span class="k">raise</span>
+
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Derek Groenendyk.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'3.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

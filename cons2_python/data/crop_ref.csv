@@ -1,0 +1,30 @@
+short name,long name,type,mmnum
+barley,barley,annual,7
+beansdry,beans dry,annual,7
+beanssnap,beans snap,annual,7
+cabbage,cabbage,annual,7
+carrot,carrot,annual,7
+corngrn,corn grain,annual,7
+cornslg,corn silage,annual,7
+cornsw,corn sweet,annual,7
+cotton,cotton,annual,7
+cotton1,cotton 1,annual,7
+cotton2,cotton 2,annual,7
+grainspr,grain spring,annual,7
+lettuce,lettuce,annual,7
+melon,melon,annual,7
+peasdry,peas dry,annual,7
+peasgrn,peas green,annual,7
+potatoesir,potatoes irish,annual,7
+sorghum,sorghum,annual,7
+vgtblsm,vegetables small,annual,7
+wheat,wheat,annual,7
+wheatwntrfall,wheat winter fall,annual,12
+wheatwntrspr,wheat winter spring,annual,7
+alfalfa,alfalfa,perennial,
+citrus,citrus,perennial,
+grapes,grapes,perennial,
+orchardcov,orchard with cover,perennial,
+orchardnocov,orchard with no cover,perennial,
+pasturegr,pasture grass,perennial,
+pistachio,pistachio,perennial,

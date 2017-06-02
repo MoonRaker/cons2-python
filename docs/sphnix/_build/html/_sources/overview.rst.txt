@@ -1,0 +1,52 @@
+.. _overview:
+
+Overview
+========
+
+Introduction
+------------
+
+The core mission of pvlib-python is to provide open, reliable,
+interoperable, and benchmark implementations of PV system models.
+
+There are at least as many opinions about how to model PV systems as
+there are modelers of PV systems, so
+pvlib-python provides several modeling paradigms.
+
+
+.. _modeling-paradigms:
+
+Modeling paradigms
+------------------
+
+The backbone of pvlib-python
+is well-tested procedural code that implements PV system models.
+pvlib-python also provides a collection of classes for users
+that prefer object-oriented programming.
+
+
+Procedural
+^^^^^^^^^^
+
+The straightforward procedural code can be used for all modeling
+steps in pvlib-python.
+
+
+
+Getting support
+---------------
+The best way to get support is to make an issue on our
+`GitHub issues page <https://github.com/pvlib/pvlib-python/issues>`_ .
+
+
+How do I contribute?
+--------------------
+We're so glad you asked! Please see our
+`wiki <https://github.com/pvlib/pvlib-python/wiki/Contributing-to-pvlib-python>`_
+for information and instructions on how to contribute.
+We really appreciate it!
+
+
+Credits
+-------
+USGS Arizona Water Science Center Water Use Program for support and testing.

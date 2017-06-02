@@ -1,0 +1,289 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Main &mdash; Cons2 3.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Cons2 3.0 documentation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Cons2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input_files.html">Input Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../output_files.html">Output Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../run.html">Running CONS2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution.html">Contribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../variables_style_rules.html">Glossary</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">Cons2</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>Main</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/api/main.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="main">
+<span id="id1"></span><h1>Main<a class="headerlink" href="#main" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-cons2.main"></span><dl class="function">
+<dt id="cons2.main.import_data">
+<code class="descclassname">cons2.main.</code><code class="descname">import_data</code><span class="sig-paren">(</span><em>vis</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cons2/main.html#import_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cons2.main.import_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads the site input file and initilizes a SITE object, including crop
+and weather information.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vis</strong> (<em>boolean</em>) &#8211; Sets Excel object visibility.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>sites</strong> &#8211; SITE objects for each input location.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="cons2.main.main">
+<code class="descclassname">cons2.main.</code><code class="descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cons2/main.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cons2.main.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="cons2.main.run">
+<code class="descclassname">cons2.main.</code><code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cons2/main.html#run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cons2.main.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs the CONS2 program.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="cons2.main.write_crp_output">
+<code class="descclassname">cons2.main.</code><code class="descname">write_crp_output</code><span class="sig-paren">(</span><em>directory</em>, <em>name</em>, <em>cname</em>, <em>years</em>, <em>data</em>, <em>dates</em>, <em>starts</em>, <em>ends</em>, <em>bwrite</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cons2/main.html#write_crp_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cons2.main.write_crp_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes output data for each crop.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>directory</strong> (<em>string</em>) &#8211; Directory where .csv files will be saved.</li>
+<li><strong>name</strong> (<em>string</em>) &#8211; Name of the site.</li>
+<li><strong>cname</strong> &#8211; Name of the crop.</li>
+<li><strong>years</strong> (<em>list</em>) &#8211; List of integer years for the site.</li>
+<li><strong>data</strong> (<em>list</em>) &#8211; List of arrays containing the data for each variable.</li>
+<li><strong>dates</strong> (<em>list</em>) &#8211; Planting season dates.</li>
+<li><strong>starts</strong> (<em>list</em>) &#8211; List of Julian dates for the begining of the growing season.</li>
+<li><strong>ends</strong> (<em>list</em>) &#8211; List of Julian dates for the end of the gowring season.</li>
+<li><strong>bwrite</strong> (<em>boolean</em>) &#8211; Logical determing whether or not to print individual crop files.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="cons2.main.write_excel_monthly">
+<code class="descclassname">cons2.main.</code><code class="descname">write_excel_monthly</code><span class="sig-paren">(</span><em>wb</em>, <em>name</em>, <em>etmethod</em>, <em>acrop</em>, <em>years</em>, <em>data</em>, <em>dates</em>, <em>starts</em>, <em>ends</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cons2/main.html#write_excel_monthly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cons2.main.write_excel_monthly" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="cons2.main.write_excel_yearly">
+<code class="descclassname">cons2.main.</code><code class="descname">write_excel_yearly</code><span class="sig-paren">(</span><em>wb</em>, <em>name</em>, <em>etmethod</em>, <em>acrop</em>, <em>years</em>, <em>data</em>, <em>dates</em>, <em>starts</em>, <em>ends</em>, <em>rind</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cons2/main.html#write_excel_yearly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cons2.main.write_excel_yearly" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="cons2.main.write_output">
+<code class="descclassname">cons2.main.</code><code class="descname">write_output</code><span class="sig-paren">(</span><em>directory</em>, <em>name</em>, <em>years</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cons2/main.html#write_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cons2.main.write_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes summary data for consumptive use, effective precipitation,
+and irrigrated consumptive for the whole site.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>directory</strong> (<em>string</em>) &#8211; Directory where .csv files will be saved.</li>
+<li><strong>name</strong> (<em>string</em>) &#8211; Name of the site.</li>
+<li><strong>years</strong> (<em>list</em>) &#8211; List of integer years for the site.</li>
+<li><strong>data</strong> (<em>list</em>) &#8211; List of arrays containing the data for each variable.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Derek Groenendyk.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
