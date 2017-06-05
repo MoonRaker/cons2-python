@@ -14,41 +14,44 @@ This file is a Microsoft Excel spreadsheet in which each tab corresponds to a lo
 Site Parameters
 ...............
 
-HUC
-Descriptive, Non-mandatory, String: Hydrologic Unit Code for site. 
+HUC : String, optional
+	Hydrologic Unit Code for site, descriptive use only.
 
-County
-Descriptive, Non-mandatory, String: County where site is located.
+County : String, optional
+	County where site is located, descriptive use only.
 
-State
-Descriptive, Non-mandatory, String: State where site is located.
+State : String
+	State where site is located, descriptive use only.
 
-NOUT
-Non-mandatory, Integer: Number of 
+NOUT : Integer, optional?
+	Number of 
 
-NPRE
-Non-mandatory, Integer: Number of 
+NPRE : Integer, optional?
+	Number of 
 
-NBEGYR
-Mandatory, Integer: Year in which calculation of consumptive use begins.
+NBEGYR : Integer
+	Year in which calculation of consumptive use begins.
 
-NENDYR
-Mandatory, Integer: Year in which calculation of consumptive use ends.
+NENDYR : Integer
+	Year in which calculation of consumptive use ends.
 
-APDEP
-Non-Mandatory, Integer: Unused.
+APDEP : Integer, optional
+	Unused.
 
-wx_type
-Mandatory, string: Filename for weather file.
+wx_type : String
+	Filename for weather file.
 
-wx_location
-Mandatory, string: Name corresponding to the location of the weather data to be used.
+wx_location : String
+	Name corresponding to the location of the weather data to be used.
+	
+wx_units : String
+	English or Metric
 
-crop_parameters
-Mandatory, string: Set of crop parameters to be used, must be present in the ET specific file.
+crop_parameters : String
+	Set of crop parameters to be used, must be present in the ET specific file.
 
-ET_method
-Mandatory, string: Blaney-Cridle method used to calculate consumptive use. Options are either "fao" or "scs". This value also determines which set of crop_parmaters, which are contained in two separate files.
+ET_method : String
+	Blaney-Cridle method used to calculate consumptive use. Options are either "fao" or "scs". This value also determines which set of crop_parmaters, which are contained in two separate files.
 
 
 wx_%type%.xlsx

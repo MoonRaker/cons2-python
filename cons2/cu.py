@@ -78,7 +78,7 @@ class CONSUMPTIVE_USE(object):
         self.nbeg = self.beg[self.yr]
         self.nend = self.end[self.yr]
 
-        print(self.nbeg, self.nend, self.cp.sname)
+        # print(self.nbeg, self.nend, self.cp.sname)
 
         # if    self.nend - self.nbeg + 1 > self.cp.ngrows:
         #   self.nend = self.nbeg + self.cp.ngrows - 1
@@ -87,7 +87,7 @@ class CONSUMPTIVE_USE(object):
         dates['nbegmo'], dates['nbegda'] = self.clndr(self.nbeg)
         dates['nendmo'], dates['nendda'] = self.clndr(self.nend)
 
-        print(dates,self.cp.sname)
+        # print(dates,self.cp.sname)
 
         self.nbegmo = dates['nbegmo']
         self.nbegda = dates['nbegda']
