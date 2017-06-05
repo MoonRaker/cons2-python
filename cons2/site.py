@@ -30,7 +30,7 @@ logger.setLevel(logging.DEBUG)
 # ch.setFormatter(formatter)
 # logger.addHandler(ch)
 
-cons2_dir = os.path.dirname(os.path.abspath(cons2.__file__))
+# cons2_dir = os.path.dirname(os.path.abspath(cons2.__file__))
 
 cons2_dir = os.getcwd()
 
