@@ -45,10 +45,10 @@ class SITE(object):
         self.read_sitefile()
 
         if self.et_method == 'scs':
-            self.units = 'english'
+            # self.units = 'english'
             self.wx = WEATHER(self.wx_file, self.wx_location, units=self.units)
         elif self.et_method == 'fao':
-            self.units = 'metric'
+            # self.units = 'metric'
             self.wx = WEATHER(self.wx_file, self.wx_location)
 
         if isinstance(self.wx.data, pd.DataFrame):
@@ -115,6 +115,9 @@ class SITE(object):
 
         rind += 1
         self.wx_location = str(self.sitews.Cells(rind, 2).Value).strip()
+
+        rind += 1
+        self.units = str(self.sitews.Cells(rind, 2).Value).strip()
 
         rind += 1
         self.crop_param_name = str(self.sitews.Cells(rind, 2).Value).strip().upper()
