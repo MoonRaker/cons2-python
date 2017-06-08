@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# Cons2 documentation build configuration file, created by
+# cons2-python documentation build configuration file, created by
 # sphinx-quickstart on Mon Dec 19 14:40:19 2016.
 #
 # This file is execfile()d with the current directory set to its
@@ -75,7 +75,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Cons2'
+project = u'cons2-python'
 copyright = u'2016, Derek Groenendyk'
 author = u'Derek Groenendyk'
 
@@ -238,7 +238,7 @@ html_static_path = ['_static']
 #html_search_scorer = 'scorer.js'
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'Cons2doc'
+htmlhelp_basename = 'cons2-pythondoc'
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -260,7 +260,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  (master_doc, 'Cons2.tex', 'Cons2 Documentation',
+  (master_doc, 'cons2-python.tex', 'cons2-python Documentation',
    author, 'manual'),
 ]
 
@@ -290,7 +290,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'cons2', 'Cons2 Documentation',
+    (master_doc, 'cons2-python', 'cons2-python Documentation',
      [author], 1)
 ]
 
@@ -304,8 +304,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  (master_doc, 'Cons2', 'Cons2 Documentation',
-   author, 'Cons2', 'One line description of project.',
+  (master_doc, 'cons2-python', 'cons2-python Documentation',
+   author, 'cons2-python', 'One line description of project.',
    'Miscellaneous'),
 ]
 

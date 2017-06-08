@@ -75,11 +75,11 @@ class SITE(object):
         self.huc = self.sitews.Cells(rind, 2).Value
         self.county = self.sitews.Cells(rind, 3).Value
         self.state = self.sitews.Cells(rind, 4).Value
-        self.nout = int(self.sitews.Cells(rind, 5).Value)
-        self.npre = int(self.sitews.Cells(rind, 6).Value)
-        self.nbegyr = int(self.sitews.Cells(rind, 7).Value)
-        self.nendyr = int(self.sitews.Cells(rind, 8).Value)
-        self.apdep = int(self.sitews.Cells(rind, 9).Value)
+        # self.nout = int(self.sitews.Cells(rind, 5).Value)
+        self.npre = int(self.sitews.Cells(rind, 5).Value)
+        self.nbegyr = int(self.sitews.Cells(rind, 6).Value)
+        self.nendyr = int(self.sitews.Cells(rind, 7).Value)
+        self.apdep = float(self.sitews.Cells(rind, 8).Value)
 
         # self.sp['nbegyr'] = 2016
         # self.sp['nendyr'] = 2016 
@@ -162,10 +162,10 @@ class SITE(object):
 
     def read_cropfile(self, vis=False):
 
-        if self.et_method == 'scs':
-            crop_param_filename = 'crop_parameters_scs'
-        elif self.et_method == 'fao':
-            crop_param_filename = 'crop_parameters_fao'
+        # if self.et_method == 'scs':
+            # crop_param_filename = 'scs_crop_parameters_scs'
+        # elif self.et_method == 'fao':
+        crop_param_filename = self.et_method + '_crop_parameters'
 
         pathname = os.path.join(cons2_dir, 'data', crop_param_filename + '.xlsx')
 

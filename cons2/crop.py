@@ -30,7 +30,9 @@ class CROP(object):
         if sp.et_method == 'fao':
             self.stages = {}
             self.kc = {}
-            self.read_cropdev()
+            # self.read_cropdev()
+            self.read_stages()
+            self.read_kc()
         elif sp.et_method == 'scs':
             self.get_nckc()
             self.get_ckc()
@@ -93,6 +95,70 @@ class CROP(object):
             logger.critical('Crop, ' + self.sname + ', not found in crop_dev_coef.csv.') # include site??
             raise   
 
+    def read_stages(self):
+        try:
+            infile = open(os.path.join(self.directory,'data','fao_crop_stages.csv'),'r')
+        except TypeError:
+            logger_fn.critical('fao_crop_stages.csv file not found.')
+            raise
+        lines = infile.readlines()
+        infile.close()
+
+        flag = False
+
+        i = 1
+        while i < len(lines):
+            sline = lines[i].split(',')
+            cname = sline[0].replace(' ','')             
+
+            if cname != '':
+                if cname == self.sname:
+                    stage = sline[1].lower()
+                    self.stages[stage] = np.array([float(item) for item in sline[2:6]])
+                    flag = True
+                else:
+                    if flag:
+                        break
+                    flag = False
+
+            i += 1                               
+
+        if not flag:
+            logger.critical('Crop, ' + self.sname + ', not found in fao_crop_stages.csv.') # include site??
+            raise   
+
+    def read_kc(self):
+        try:
+            infile = open(os.path.join(self.directory,'data','fao_crop_coef.csv'),'r')
+        except TypeError:
+            logger_fn.critical('fao_crop_coef.csv file not found.')
+            raise
+        lines = infile.readlines()
+        infile.close()
+
+        flag = False
+
+        i = 1
+        while i < len(lines):
+            
+            sline = lines[i].split(',')
+            cname = sline[0].replace(' ','')   
+
+            if cname != '':
+                if cname == self.sname:                      
+                    num = int(sline[1].replace(' ',''))
+                    self.kc[num] = np.array([float(item) for item in sline[2:5]])
+                    flag = True
+                else:
+                    if flag:
+                        break
+                    flag = False
+
+            i += 1                               
+
+        if not flag:
+            logger.critical('Crop, ' + self.sname + ', not found in fao_crop_coef.csv.') # include site??
+            raise               
 
     def get_nckc(self):
         """
@@ -110,9 +176,9 @@ class CROP(object):
         """
 
         try:
-            infile = open(os.path.join(self.directory,'data','crop_coef_nckc.csv'),'r')
+            infile = open(os.path.join(self.directory,'data','scs_crop_stages.csv'),'r')
         except TypeError:
-            logger.critical('crop_coef_nckc.csv file not found.')
+            logger.critical('scs_crop_stages.csv file not found.')
             raise
         lines = infile.readlines()
         infile.close()
@@ -142,9 +208,9 @@ class CROP(object):
         """
 
         try:
-            infile = open(os.path.join(self.directory,'data','crop_coef_ckc.csv'),'r')
+            infile = open(os.path.join(self.directory,'data','scs_crop_coef.csv'),'r')
         except TypeError:
-            logger_fn.critical('crop_coef_ckc.csv file not found.')
+            logger_fn.critical('scs_crop_coef.csv file not found.')
             raise
         else:
             lines = infile.readlines()

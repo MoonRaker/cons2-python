@@ -1,21 +1,14 @@
-.. MetPy documentation master file, created by
-   sphinx-quickstart on Wed Apr 22 15:27:44 2015.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+.. cons2-python documentation master file, created by Derek Groenendyk on June 8, 2017.
 
-=====
-cons2
-=====
+============
+cons2-python
+============
 
-MetPy is a collection of tools in Python for reading, visualizing, and
-performing calculations with weather data.
+cons2-python is a library used to calculated consumptive use based on the Blaney-Criddle method.
 
-MetPy is still in an early stage of development, and as such
-**no APIs are considered stable.** While we won't break things
-just for fun, many things may still change as we work through
-design issues.
+The library and program are in their final form and are stable. There are currently no plans for future development unless a clear need arises.
 
-We support Python 2.7 as well as Python >= 3.3.
+It has been tested on Python 3.x but may also work on Python 2.7.
 
 -------------
 Documentation
@@ -27,34 +20,24 @@ Documentation
    overview
    installation
    input_files
+   parameters
    output_files
    run
    contribution
    api/index
-   variables_style_rules
 
 ----------
 Contact Us
 ----------
 
-* For questions and discussion about MetPy, join Unidata's python-users_
-  mailing list
 * The source code is available on GitHub_
 * Bug reports and feature requests should be directed to the
-  `GitHub issue tracker`__
-* MetPy has a Gitter_ chatroom for more "live" communication
-* MetPy can also be found on Twitter_
+  [Github issues page](https://github.com/pvlib/pvlib-python/issues)
 
-.. _python-users: https://www.unidata.ucar.edu/support/#mailinglists
-.. _GitHub: https://github.com/Unidata/MetPy
-.. _Gitter: https://gitter.im/Unidata/MetPy
-.. _Twitter: https://twitter.com/MetPy
-__ https://github.com/Unidata/MetPy/issues
+.. _GitHub: https://github.com/MoonRaker/cons2-python
 
 -------
 License
 -------
 
-MetPy is available under the terms of the open source `BSD 3 Clause license`__.
-
-__ https://raw.githubusercontent.com/Unidata/MetPy/master/LICENSE
+cons2-python is available under the terms of the open source [GNU GPLv3](https://raw.githubusercontent.com/MoonRaker/cons2-python/master/LICENSE)
