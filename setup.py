@@ -15,24 +15,18 @@ except ImportError:
 import versioneer
 
 
-# DESCRIPTION = ('A set of functions and classes for simulating the ' +
-#                'performance of photovoltaic energy systems.')
-# LONG_DESCRIPTION = """
-# PVLIB Python is a community supported tool that provides a set of
-# functions and classes for simulating the performance of photovoltaic
-# energy systems. PVLIB Python was originally ported from the PVLIB MATLAB
-# toolbox developed at Sandia National Laboratories and it implements many
-# of the models and methods developed at the Labs. More information on
-# Sandia Labs PV performance modeling programs can be found at
-# https://pvpmc.sandia.gov/. We collaborate with the PVLIB MATLAB project,
-# but operate independently of it.
+DESCRIPTION = ('A program for calculating consumptive use based on the Blaney-Criddle method')
+LONG_DESCRIPTION = """
+cons2-python is a library used to calculated consumptive use based on the Blaney-Criddle method.
+It was originally written in FORTRAN and has been translated. Consumptive use using the Blaney-
+Criddle method can be calculated using either SCS-NRCS or FAO crop coefficients. It has been
+tested and compares well with the FORTRAN results. It has been used and tested but may need 
+further evaluation.
 
-# We need your help to make pvlib-python a great tool!
+Documentation: http://cons2-python.readthedocs.io
 
-# Documentation: http://pvlib-python.readthedocs.io
-
-# Source code: https://github.com/pvlib/pvlib-python
-# """
+Source code: https://github.com/MoonRaker/cons2-python
+"""
 
 DISTNAME = 'cons2'
 LICENSE = 'GNU GPLv3'
