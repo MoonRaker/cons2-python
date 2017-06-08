@@ -1,0 +1,18 @@
+name: pvlibdocs
+channels:
+    - conda-forge
+    - defaults
+dependencies:
+    - python=3.5
+    - mock  # needed for local python 2.7 builds
+    - numpy=1.11.2
+    - scipy
+    - pandas=0.19.1
+    - ephem
+    - numba
+    - ipython=5.2.2
+    - numpydoc
+    - matplotlib=2.0.0
+    - sphinx=1.5
+    - sphinx_rtd_theme
+    - docutils

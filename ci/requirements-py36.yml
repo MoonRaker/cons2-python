@@ -1,0 +1,14 @@
+name: test_env
+channels:
+    - defaults
+    - conda-forge
+dependencies:
+    - python=3.6
+    - numpy
+    - scipy
+    - pandas
+    - pytest
+    - pytest-cov
+    - nose
+    - pip:
+        - coveralls
