@@ -63,8 +63,9 @@ install:
     #- pip install scipy # won't do anything if already installed
     - pip install -e .
 
-# script:
-#     - py.test cons2 --cov=cons2 --cov-report term-missing
+script:
+    # - py.test cons2 --cov=cons2 --cov-report term-missing
+    - py.test cons2/ --doctest-modules --pep8 coveralls -v --cov coveralls --cov-report term-missing
 
-# after_success:
-coveralls
+after_success:
+    - coveralls
