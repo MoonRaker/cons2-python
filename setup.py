@@ -62,7 +62,7 @@ setuptools_kwargs = {
     'include_package_data': True
 }
 
-# set up pvlib packages to be installed and extensions to be compiled
+# set up cons2 packages to be installed and extensions to be compiled
 PACKAGES = ['cons2']
 
 extensions = []
