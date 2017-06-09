@@ -255,7 +255,7 @@ class CONSUMPTIVE_USE(object):
 
 
     def spring(self, atemp, mean):
-        '''
+        """
         Find beginning of growing season day of year.
 
         Parameters
@@ -269,7 +269,7 @@ class CONSUMPTIVE_USE(object):
         -------
         jdays: integer
             Julian day
-        '''
+        """
 
         if atemp[6] >= mean:
             for j in range(0, 7):
@@ -317,7 +317,7 @@ class CONSUMPTIVE_USE(object):
 
 
     def fall(self, atemp, mean):
-        '''
+        """
         Find end of growing season day of year.
 
         Parameters
@@ -331,7 +331,7 @@ class CONSUMPTIVE_USE(object):
         -------
         jdays: integer
             Julian day
-        '''
+        """
 
         flag = True
         for i in range(6, 11):
@@ -370,7 +370,7 @@ class CONSUMPTIVE_USE(object):
 
 
     def clndr(self, doy):
-        '''
+        """
         Convert day of year in month and day.
 
         Parameters
@@ -384,7 +384,7 @@ class CONSUMPTIVE_USE(object):
             Month of the year
         day: integer
             Day of the month
-        '''
+        """
 
         ordinal = date.toordinal(date(2015, 1, 1)) + int(doy) - 1
         adate = date.fromordinal(ordinal).timetuple()
@@ -399,7 +399,7 @@ class CONSUMPTIVE_USE(object):
 
 
     def get_dates(self, temps):
-        '''
+        """
         Find the start and end of the 
         crop growth season in julian days
 
@@ -428,7 +428,7 @@ class CONSUMPTIVE_USE(object):
             Julian day
         nend: integer
             Julian day
-        '''
+        """
         nyrs = len(self.sp.yrs)
 
         self.beg = np.zeros((nyrs), dtype=np.int32)
@@ -481,7 +481,7 @@ class CONSUMPTIVE_USE(object):
 
 
     def calc_midpts(self):
-        '''
+        """
         Find midpoints of seasons
 
         Parameters
@@ -501,7 +501,7 @@ class CONSUMPTIVE_USE(object):
             Midpoint of the Spring month of the season
         midptf: integer
             Midpoint of the Fall month of the season
-        '''
+        """
 
         month = [31,28,31,30,31,30,31,31,30,31,30,31]
         self.npart = month[self.nbegmo-1] - self.nbegda + 1
@@ -510,7 +510,7 @@ class CONSUMPTIVE_USE(object):
 
 
     def mmtemp(self, nmo, midpt, day2, num):
-        '''
+        """
         Caclulates Spring part month mean temperature
 
         Parameters
@@ -536,7 +536,7 @@ class CONSUMPTIVE_USE(object):
             Mean montly temperature
         day: integer
             Day of the month
-        ''' 
+        """ 
         middle = [16, 45, 75, 105, 136, 166, 197, 228, 258, 289, 319, 350]
 
         for k in range(num):

@@ -587,13 +587,13 @@ def run():
         #             ': Missing weather data.')
 
         if len(list(set(site.wx.data.index.year))) < len(site.yrs):
-                logger.critical(site.name.upper() + \
+                logger.critical(site.site_name.upper() + \
                     ': Missing weather data.')                
-                raise SystemExit
+                # raise SystemExit
 
         for ayear in site.yrs:
             if ayear not in list(set(site.wx.data.index.year)):
-                    logger.critical(site.name.upper() + \
+                    logger.critical(site.site_name.upper() + \
                         ': Missing weather data.')                
                     raise SystemExit                 
 
