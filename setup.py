@@ -38,7 +38,8 @@ INSTALL_REQUIRES = ['numpy >= 1.9.0',
                     'pandas >= 0.14.0',
                     'six',
                     ]
-TESTS_REQUIRE = ['pytest', 'nose']
+# TESTS_REQUIRE = ['pytest', 'nose']
+TESTS_REQUIRE = []
 
 CLASSIFIERS = [
     'Development Status :: 4 - Beta',

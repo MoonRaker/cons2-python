@@ -1,4 +1,4 @@
-name: pvlibdocs
+name: cons2docs
 channels:
     - conda-forge
     - defaults
@@ -8,8 +8,6 @@ dependencies:
     - numpy=1.11.2
     - scipy
     - pandas=0.19.1
-    - ephem
-    - numba
     - ipython=5.2.2
     - numpydoc
     - matplotlib=2.0.0
