@@ -93,7 +93,7 @@ copyright = u'Derek Groenendyk'
 import cons2
 
 # The short X.Y version.
-version = '%s' % (cons2.__version__)
+version = '%s' % (4.0)
 # The full version, including alpha/beta/rc tags.
 release = version
 
