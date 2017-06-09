@@ -1,0 +1,5 @@
+#include version.py
+include versioneer.py
+include cons2/_version.py
+recursive-include cons2/data *
+include README.md
