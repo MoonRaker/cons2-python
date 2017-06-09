@@ -61,7 +61,7 @@ if 'win' in sys.platform:
     try:
         import win32api # check if it was already installed manually
     except ImportError:
-        INSTALL_REQUIRES.append('pypiwin32')
+        INSTALL_REQUIRES.append('pywin32')
 
 
 setuptools_kwargs = {
