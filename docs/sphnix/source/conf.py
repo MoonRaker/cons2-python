@@ -34,7 +34,7 @@ if sys.platform.startswith('linux'):
             'win32com.client',
             ]:
 
-        sys.modules[mod_name] = mock.MagicMock()
+        sys.modules[mod_name] = MagicMock()
 
 # sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
