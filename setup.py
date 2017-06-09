@@ -37,7 +37,7 @@ URL = 'https://github.com/MoonRaker/cons2-python'
 INSTALL_REQUIRES = ['numpy >= 1.9.0',
                     'pandas >= 0.14.0',
                     'six',
-                    'win32com'
+                    'pywin32'
                     ]
 # TESTS_REQUIRE = ['pytest', 'nose']
 TESTS_REQUIRE = []

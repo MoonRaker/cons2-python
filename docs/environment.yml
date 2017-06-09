@@ -14,4 +14,4 @@ dependencies:
     - sphinx=1.5
     - sphinx_rtd_theme
     - docutils
-    - win32com
+    - pywin32
