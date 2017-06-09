@@ -24,7 +24,7 @@ Documentation
    output_files
    run
    contribution
-   api/index
+   api
 
 ----------
 Contact Us
