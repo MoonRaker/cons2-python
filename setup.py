@@ -34,12 +34,6 @@ AUTHOR = 'CONS2 Python Developers'
 MAINTAINER_EMAIL = 'derek.groenendyk@gmail.com'
 URL = 'https://github.com/MoonRaker/cons2-python'
 
-INSTALL_REQUIRES = ['numpy >= 1.9.0',
-                    'pandas >= 0.14.0',
-                    'six',
-                    'pywin32=220'
-                    ]
-# TESTS_REQUIRE = ['pytest', 'nose']
 TESTS_REQUIRE = []
 
 CLASSIFIERS = [
@@ -58,6 +52,18 @@ CLASSIFIERS = [
     'Topic :: Scientific/Engineering',
 ]
 
+PACKAGES = ["cons2"]
+
+INSTALL_REQUIRES = ['six', 'comtypes', 'numpy >= 1.9.0',
+      'pandas >= 0.14.0',]
+
+if 'win' in sys.platform:
+    try:
+        import win32api # check if it was already installed manually
+    except ImportError:
+        INSTALL_REQUIRES.append('pypiwin32')
+
+
 setuptools_kwargs = {
     'zip_safe': False,
     'scripts': [],
@@ -65,7 +71,7 @@ setuptools_kwargs = {
 }
 
 # set up cons2 packages to be installed and extensions to be compiled
-PACKAGES = ['cons2']
+# PACKAGES = ['cons2']
 
 extensions = []
 

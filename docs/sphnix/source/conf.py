@@ -26,8 +26,17 @@ class Mock(MagicMock):
     def __getattr__(cls, name):
         return Mock()
 
-MOCK_MODULES = []
-sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
+# MOCK_MODULES = []
+
+if sys.platform.startswith('linux'):
+    for mod_name in [
+            'win32com',
+            'win32com.client',
+            ]:
+
+        sys.modules[mod_name] = mock.MagicMock()
+
+# sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 import pandas as pd
 pd.show_versions()
