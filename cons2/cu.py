@@ -43,8 +43,8 @@ class CONSUMPTIVE_USE(object):
         self.nyrs = len(self.sp.yrs)
 
         wx_years = list(set(self.sp.wx.data.index.year))
-        if (not np.all(wx_years == self.sp.yrs)) or \
-            (len(wx_years) != self.nyrs):
+        # if (not np.all(wx_years == self.sp.yrs)) or \
+        if (len(wx_years) < self.nyrs):
                 logger_cu.warn('Missing years of weather data.')
 
         logger_cu.info('completed init: ' + self.cp.sname)

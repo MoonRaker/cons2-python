@@ -69,8 +69,8 @@ class SITE(object):
         # self.sitews.Cells(2, 5).Delete(-4159) # delete and shift left
         # self.sitews.Cells(3, 5).Delete(-4159) # delete and shift left
 
-        self.sitews.Cells(rind, 7).Value = "2010"
-        self.sitews.Cells(rind, 8).Value = "2016"
+        # self.sitews.Cells(rind, 7).Value = "2010"
+        # self.sitews.Cells(rind, 8).Value = "2016"
 
         self.huc = self.sitews.Cells(rind, 2).Value
         self.county = self.sitews.Cells(rind, 3).Value
@@ -89,7 +89,7 @@ class SITE(object):
         self.yrs = np.arange(int(self.nbegyr), \
                                int(self.nendyr) + 1)
 
-        # print(self.sp['yrs'])
+        print(self.yrs)
 
         # rind += 1
         # [self.sitews.Rows(rind).EntireRow.Delete() for i in range(10)]
