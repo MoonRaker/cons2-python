@@ -37,6 +37,7 @@ class WEATHER(object):
         self.wsname = wsname
         # self.numyrs = numyrs
         self.units = units
+        print(self.units)
 
         # logger.debug(os.path.splitext(self.fname)[1])
         # logger.debug(os.getcwd())
@@ -144,22 +145,27 @@ class WEATHER(object):
                         for hind in range(len(headers)):
                             aheader = headers[hind]
                             cind = hind + 3
-                            if self.units == 'metric':
+                            if self.units == 'english':
                                 factor = 1.0
                             else:
                                 if 'precipitation' in aheader:
-                                    factor = 0.0393701
+                                    factor = 1./25.4
+                                    offset = 0.0
                                 elif aheader in ['temp_min', 'temp_max', 'temp_avg', 'dewpoint']:
-                                    factor = 9.0/5.0 + 32.0
+                                    factor = 9./5.
+                                    offset = 32.0
                                 elif 'wind' in aheader:
                                     factor = 2.237
+                                    offset = 0.0
                                 elif 'radiation' in aheader:
                                     factor = 23.89
+                                    offset = 0.0
 
                             if rind == 2:
                                 wx[aheader] = np.zeros(numrows)                       
-                            wx[aheader][row] = float(ws.Cells(rind, cind).Value)*factor                 
+                            wx[aheader][row] = float(ws.Cells(rind, cind).Value) * factor + offset             
 
+                # weather units must be english for cu calcs
                 self.data = pd.DataFrame(wx, index=dates)
 
             wb.Close(0)

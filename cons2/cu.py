@@ -446,8 +446,6 @@ class CONSUMPTIVE_USE(object):
                 mend = 365 - mend + 1
 
             atemp = temps[temps.index.year == self.sp.yrs[yr]].values
-            if self.sp.units == 'metric':
-                atemp = atemp * 1.8 + 32.
 
             nstart = self.spring(atemp, self.cp.nbtemp)
             self.beg[yr] = nstart
@@ -599,9 +597,6 @@ class CONSUMPTIVE_USE(object):
 
     def calc_effprecip(self, precip):
 
-        if self.sp.units == 'metric':
-            precip /= 25.4
-
         month = [31,28,31,30,31,30,31,31,30,31,30,31]
 
         if self.sp.apdep == 0.:
@@ -614,9 +609,6 @@ class CONSUMPTIVE_USE(object):
         cuirr = np.zeros((13))
         
         for k in range(12):
-            # if units == 'metric':
-                # cu_temp = cu[k] / 25.4
-            # else:
             cu_temp = self.cu[k]
             if self.sp.npre != 2:
                 # verify this calculation - DGG 2/13/2017
