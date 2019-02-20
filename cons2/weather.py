@@ -37,7 +37,7 @@ class WEATHER(object):
         self.wsname = wsname
         # self.numyrs = numyrs
         self.units = units
-        print(self.units)
+        # print(self.units)
 
         # logger.debug(os.path.splitext(self.fname)[1])
         # logger.debug(os.getcwd())
@@ -147,6 +147,7 @@ class WEATHER(object):
                             cind = hind + 3
                             if self.units == 'english':
                                 factor = 1.0
+                                offset = 0.0
                             else:
                                 if 'precipitation' in aheader:
                                     factor = 1./25.4

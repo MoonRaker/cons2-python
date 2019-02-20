@@ -49,7 +49,7 @@ class SITE(object):
             self.wx = WEATHER(self.wx_file, self.wx_location, units=self.units)
         elif self.et_method == 'fao':
             # self.units = 'metric'
-            self.wx = WEATHER(self.wx_file, self.wx_location)
+            self.wx = WEATHER(self.wx_file, self.wx_location, units=self.units)
 
         if isinstance(self.wx.data, pd.DataFrame):
             self.read_cropfile()    
@@ -89,7 +89,7 @@ class SITE(object):
         self.yrs = np.arange(int(self.nbegyr), \
                                int(self.nendyr) + 1)
 
-        print(self.yrs)
+        #print(self.yrs)
 
         # rind += 1
         # [self.sitews.Rows(rind).EntireRow.Delete() for i in range(10)]
