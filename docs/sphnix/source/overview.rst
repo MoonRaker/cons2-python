@@ -99,6 +99,8 @@ References
 
 .. [DOO75] Doorenbos, J. and Pruitt, W.O.1975. Guidelines for predicting crop water requirements. Irrigation and drainage paper FAO No. 24 p195. 
 
+.. [FAO] http://www.fao.org/3/w4367e/w4367e16.htm
+
 
 Getting support
 ---------------
